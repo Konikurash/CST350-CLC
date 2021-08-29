@@ -1,0 +1,56 @@
+﻿@model CLC_Proj.Models.Board
+<body>
+
+
+    <div class="grid-container">
+        @{
+
+            for (int row = 0; row < Model.Grid.GetLength(0); row++)
+            {
+
+           
+
+                for (int col = 0; col < Model.Grid.GetLength(1); col++)
+                {
+                   
+                <button class="grid-item button" type="submit" name="ButtonNumber" value="@row+@col" asp-controller="GameBoard" asp-action="ButtonClick">
+                    @*<img class="button" src="~/img/oringinal.png" />*@
+                </button>
+                }
+
+
+            }
+        }
+    </div>
+
+
+
+
+</body>
+
+<style>
+    .button {
+        background-image: url('~/img/oringinal.png');
+        display: block;
+        width: 50px;
+        height: auto;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(@Model.Grid.GetLength(0), 1fr);
+        padding: 10px;
+        position: fixed;
+    }
+
+    .grid-item {
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+        display: block;
+
+    }
+
+
+</style>
