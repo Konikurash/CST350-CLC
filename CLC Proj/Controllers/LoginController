@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CLC_Proj.Models;
+using CLC_Proj.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CLC_Proj.Controllers
+{
+    public class LoginController : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult ProcessLogin(UserModel user)
+        {
+            SecurityService securityService = new SecurityService();
+
+            if (securityService.IsValid(user))
+            {
+                return View("LoginSucess", user);
+            }
+            else
+            {
+                return View("LoginFail", user);
+            }
+        }
+    }
+}
