@@ -1,0 +1,47 @@
+using CLC_Proj.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CLC_Proj.Services
+{
+    public class SecurityDAO
+    {
+
+        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Users;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+        public bool FindUserByNameAndPassword(UserModel user)
+        {
+            bool success = false;
+
+            string sqlStatement = "Select * FROM dbo.Users WHERE username = @username and password = @password";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+
+                command.Parameters.Add("@USERNAME", System.Data.SqlDbType.VarChar, 50).Value = user.userName;
+                command.Parameters.Add("@PASSWORD", System.Data.SqlDbType.VarChar, 50).Value = user.password;
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        success = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            return success;
+        }
+
+    }
+}
